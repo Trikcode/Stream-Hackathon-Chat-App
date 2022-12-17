@@ -1,21 +1,25 @@
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import React from "react";
+import { StyleSheet, View, Text } from "react-native";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, Layout } from "@ui-kitten/components";
-import { default as theme } from "./assets/custom-theme.json";
-import ChatScreen from "./ChatScreen";
+import { default as theme } from "../assets/custom-theme.json";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
-        <Layout
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <ChatScreen />
-        </Layout>
-      </ApplicationProvider>
-    </GestureHandlerRootView>
+    <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+      <Layout>
+        <Text>Home Screen</Text>
+      </Layout>
+    </ApplicationProvider>
   );
 };
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+});

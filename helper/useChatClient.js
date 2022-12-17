@@ -3,12 +3,13 @@ import { StreamChat } from "stream-chat";
 import {
   chatApiKey,
   chatChannelId,
+  chatUserId,
   chatUserName,
   chatUserToken,
-} from "./chartConfig";
+} from "../config/chatConfig";
 
 const user = {
-  id: chatUserName,
+  id: chatUserId,
   name: chatUserName,
 };
 
@@ -20,31 +21,19 @@ export const useChatClient = () => {
   useEffect(() => {
     const setUpUser = async () => {
       try {
-        await chatClient.connectUser(user, chatUserToken);
+        await chatClient.connectUser(user, chatClient.devToken(chatUserId));
         setClientIsReady(true);
-
-        const channel = chatClient.channel("worldcup", "general", {
-          name: "General",
-          image: "https://bit.ly/2u9Vc0r",
-          members: [
-            "snowy-bonus-4",
-            "snowy-bonus-5",
-            "snowy-bonus-6",
-            "snowy-bonus-7",
-            "snowy-bonus-8",
-            "snowy-bonus-9",
-            "snowy-bonus-10",
-          ],
-        });
-        channel.watch();
-        channel.sendMessage({
-          text: "Hello world",
-        });
-        channel.on("message.new", (event) => {
-          console.log(event);
-        });
+        // const channel = chatClient.channel("messaging", "global", {
+        //   name: "Global",
+        //   image: "https://getstream.io/random_svg/?id=global-channel-icon",
+        // });
+        // await channel.watch();
       } catch (error) {
-        console.log(error);
+        if (error instanceof Error) {
+          console.error(
+            `An error occurred while connecting the user: ${error.message}`
+          );
+        }
       }
     };
 

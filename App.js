@@ -1,19 +1,22 @@
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Text, View } from "@ui-kitten/components";
-import { useChatClient } from "./useChatClient";
-import { OverlayProvider, Chat } from "stream-chat-expo";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useChatClient } from "./helper/useChatClient";
+import { OverlayProvider, Chat, LoadingIndicator } from "stream-chat-expo";
 import { StreamChat } from "stream-chat";
+import ChannelScreen from "./screens/ChannelScreen";
 import HomeScreen from "./screens/Home";
-import ChatScreen from "./screens/ChatScreen";
+import ChannelListScreen from "./screens/ChannelListScreen";
+import ThreadScreen from "./screens/ThreadScreen";
 import Login from "./screens/Login";
 import SignUp from "./screens/SignUp";
+import { AppProvider } from "./components/AppContext";
 
 import { chatApiKey } from "./config/chatConfig";
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 const chatClient = StreamChat.getInstance(chatApiKey);
 
 export default function App() {
@@ -26,30 +29,45 @@ export default function App() {
     );
   }
   return (
-    <OverlayProvider>
-      <Chat client={chatClient} theme="messaging light">
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="Chat" component={ChatScreen} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="SignUp" component={SignUp} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Chat>
-    </OverlayProvider>
+    <AppProvider>
+      <NavigationStack />
+    </AppProvider>
   );
 }
+
+const NavigationStack = () => {
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <OverlayProvider>
+        <Chat client={chatClient}>
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: true,
+              }}
+            >
+              {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+              <Stack.Screen
+                name="ChannelListScreen"
+                component={ChannelListScreen}
+              />
+              <Stack.Screen name="ChannelScreen" component={ChannelScreen} />
+              <Stack.Screen name="ThreadScreen" component={ThreadScreen} />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="SignUp" component={SignUp} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Chat>
+      </OverlayProvider>
+    </GestureHandlerRootView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
