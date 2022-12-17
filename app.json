@@ -24,10 +24,18 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.trikcode.wisechat"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    }
+  },
+  "build": {
+    "babel": {
+      "include": [
+        "@ui-kitten/components"
+      ]
     }
   }
 }
