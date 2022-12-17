@@ -11,7 +11,7 @@ import ChatScreen from "./screens/ChatScreen";
 import Login from "./screens/Login";
 import SignUp from "./screens/SignUp";
 
-import { chatApiKey } from "./chartConfig";
+import { chatApiKey } from "./config/chatConfig";
 
 const Stack = createNativeStackNavigator();
 const chatClient = StreamChat.getInstance(chatApiKey);

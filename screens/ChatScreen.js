@@ -1,6 +1,6 @@
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import React from "react";
-import { chatUserId } from "./chartConfig";
+import { chatUserId } from "../config/chatConfig";
 import { ChannelList, ChannelListPreview } from "stream-chat-expo";
 
 const filters = {
